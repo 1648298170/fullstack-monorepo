@@ -1,0 +1,26 @@
+# 依赖与构建产物（install/build 时重新生成）
+**/node_modules
+**/dist
+**/coverage
+**/.turbo
+reports
+
+# Docker 数据卷
+.docker-data
+
+# Git
+.git
+
+# IDE
+.vscode
+
+# 日志与临时文件
+*.log
+*.local
+*.tsbuildinfo
+
+# Prisma 生成产物（postinstall 重新生成）
+apps/api/src/generated
+
+# Husky（部署不需要 git hooks）
+.husky

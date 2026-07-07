@@ -1,0 +1,17 @@
+node_modules
+dist
+coverage
+reports
+.turbo
+*.local
+*.tsbuildinfo
+
+# @apps/api (NestJS) — 后端环境文件含密钥，Prisma 生成产物不提交
+# apps/api/.env
+# apps/api/.env.development
+# apps/api/.env.production
+# apps/api/.env.test
+# apps/api/src/generated
+
+# docker-compose 本地数据卷
+.docker-data

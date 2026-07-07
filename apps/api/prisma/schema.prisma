@@ -1,0 +1,140 @@
+// Prisma Schema - MySQL
+// 文档: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  // 生成 CommonJS 产物（使用 __dirname 而非 import.meta.url）。
+  // 避免 Node 22 模块检测把生成的 client.js 判定为 ESM 导致 require 崩溃。
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+// ==================== RBAC 权限体系 ====================
+// 用户(sys_user) ↔ 角色(sys_role) ↔ 权限(sys_permission) / 菜单(sys_menu)
+// 通过中间表建立多对多关系
+
+/// 用户表
+model User {
+  /// 雪花 ID（由 SnowflakeIdService 生成，BigInt 存储为 String）
+  id        String   @id @db.VarChar(20)
+  username  String   @unique @db.VarChar(50)
+  password  String   @db.VarChar(200) // bcrypt 哈希
+  nickname  String?  @db.VarChar(100)
+  /// 逗号分隔的角色列表（兼容旧逻辑，新逻辑优先使用 sys_user_role 关系表）
+  roles     String   @default("user") @db.VarChar(200)
+  isActive  Boolean  @default(true)
+  /// 软删除时间（null 表示未删除）
+  deletedAt DateTime? @map("deleted_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  /// 用户-角色关联
+  userRoles SysUserRole[]
+
+  @@map("sys_user")
+}
+
+/// 角色表
+model SysRole {
+  id          String   @id @db.VarChar(20)
+  name        String   @db.VarChar(50)
+  /// 角色编码，如 admin / editor / viewer
+  code        String   @unique @db.VarChar(50)
+  description String?  @db.VarChar(255)
+  /// 软删除时间（null 表示未删除）
+  deletedAt   DateTime? @map("deleted_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  /// 关联关系
+  userRoles       SysUserRole[]
+  rolePermissions SysRolePermission[]
+  roleMenus       SysRoleMenu[]
+
+  @@map("sys_role")
+}
+
+/// 权限表（操作级：API 接口权限 / 按钮级别权限）
+model SysPermission {
+  id        String   @id @db.VarChar(20)
+  name      String   @db.VarChar(50)
+  /// 权限编码，如 user:create / user:delete
+  code      String   @unique @db.VarChar(100)
+  /// 权限类型: api / button
+  type      String   @db.VarChar(20)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  /// 角色-权限关联
+  rolePermissions SysRolePermission[]
+
+  @@map("sys_permission")
+}
+
+/// 菜单表（页面级：目录 / 菜单 / 按钮）
+model SysMenu {
+  id        String   @id @db.VarChar(20)
+  name      String   @db.VarChar(50)
+  /// 路由路径，如 /system/user
+  path      String?  @db.VarChar(100)
+  /// 前端组件路径，如 system/user/index
+  component String?  @db.VarChar(100)
+  /// 父菜单 ID，0 表示顶级
+  parentId  String   @default("0") @db.VarChar(20) @map("parent_id")
+  /// 菜单类型: 1=目录 2=菜单 3=按钮
+  type      Int      @db.TinyInt
+  /// 图标名称
+  icon      String?  @db.VarChar(50)
+  /// 排序序号（越小越靠前）
+  sort      Int      @default(0)
+  /// 软删除时间（null 表示未删除）
+  deletedAt DateTime? @map("deleted_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  /// 角色-菜单关联
+  roleMenus SysRoleMenu[]
+
+  @@map("sys_menu")
+}
+
+// ==================== 关联表（多对多） ====================
+
+/// 用户-角色关联表
+model SysUserRole {
+  userId String @db.VarChar(20) @map("user_id")
+  roleId String @db.VarChar(20) @map("role_id")
+
+  user User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role SysRole @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+  @@map("sys_user_role")
+}
+
+/// 角色-权限关联表
+model SysRolePermission {
+  roleId       String @db.VarChar(20) @map("role_id")
+  permissionId String @db.VarChar(20) @map("permission_id")
+
+  role       SysRole      @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission SysPermission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@map("sys_role_permission")
+}
+
+/// 角色-菜单关联表
+model SysRoleMenu {
+  roleId String @db.VarChar(20) @map("role_id")
+  menuId String @db.VarChar(20) @map("menu_id")
+
+  role SysRole @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  menu SysMenu @relation(fields: [menuId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, menuId])
+  @@map("sys_role_menu")
+}

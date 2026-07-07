@@ -1,0 +1,16 @@
+{
+  "extends": "@repo/tsconfig/vite-app",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "src",
+    "e2e",
+    "playwright.config.ts",
+    "vite.config.ts",
+    "vitest.config.ts"
+  ]
+}

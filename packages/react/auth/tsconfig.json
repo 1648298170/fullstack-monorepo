@@ -1,0 +1,7 @@
+{
+  "extends": "@repo/tsconfig/browser-library",
+  "compilerOptions": {
+    "jsx": "react-jsx"
+  },
+  "include": ["src"]
+}

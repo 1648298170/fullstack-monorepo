@@ -1,0 +1,28 @@
+# 本地开发依赖服务
+# 启动：docker compose up -d
+# 停止：docker compose down
+# 数据持久化到 ./.docker-data/（已 gitignore）
+# 配置值与 apps/api/.env.development 对应，修改一侧时同步另一侧
+
+services:
+  mariadb:
+    image: mariadb:11
+    container_name: monorepo-mariadb
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: root123456
+      MARIADB_DATABASE: app_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./.docker-data/mariadb:/var/lib/mysql
+
+  redis:
+    image: redis:7
+    container_name: monorepo-redis
+    restart: unless-stopped
+    command: redis-server --requirepass redis123456
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./.docker-data/redis:/data

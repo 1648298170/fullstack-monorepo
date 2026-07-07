@@ -1,0 +1,11 @@
+{
+  "extends": "@repo/tsconfig/nest-app",
+  "compilerOptions": {
+    "rootDir": "./",
+    "outDir": "./dist",
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
+    "types": ["node", "express", "passport-jwt"]
+  },
+  "include": ["src/**/*.ts", "prisma.config.ts"],
+  "exclude": ["node_modules", "test", "dist", "**/*.spec.ts"]
+}

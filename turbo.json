@@ -1,0 +1,51 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "env": ["BUILD_SOURCEMAP"]
+    },
+    "@apps/react-web#build": {
+      "dependsOn": ["^build"],
+      "env": ["BUILD_SOURCEMAP"],
+      "outputs": ["dist/**"]
+    },
+    "@apps/vue-web#build": {
+      "dependsOn": ["^build"],
+      "env": ["BUILD_SOURCEMAP"],
+      "outputs": ["dist/**"]
+    },
+    "@apps/api#build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "lint": {
+      "dependsOn": ["^build"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build"]
+    },
+    "test": {
+      "dependsOn": ["^build"]
+    },
+    "test:e2e": {
+      "cache": false,
+      "persistent": false
+    },
+    "test:e2e:api": {
+      "cache": false,
+      "persistent": false
+    },
+    "test:e2e:all": {
+      "cache": false,
+      "persistent": false
+    },
+    "clean": {
+      "cache": false
+    }
+  }
+}

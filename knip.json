@@ -1,0 +1,20 @@
+{
+  "$schema": "./node_modules/knip/schema.json",
+  "workspaces": {
+    ".": {
+      "entry": ["scripts/*.mjs"],
+      "ignore": ["templates/apps/**"],
+      "project": ["scripts/**/*.mjs"],
+      "ignoreDependencies": ["lint-staged"]
+    },
+    "apps/*": {
+      "ignore": ["src/styles/abstracts/**"],
+      "ignoreDependencies": ["sass-embedded"]
+    },
+    "apps/api": {
+      "entry": ["src/main.ts"],
+      "ignore": ["src/generated/**"],
+      "ignoreDependencies": ["@types/supertest", "mariadb", "supertest"]
+    }
+  }
+}
