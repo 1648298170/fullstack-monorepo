@@ -57,6 +57,7 @@ description: Use this project skill whenever working inside the fullstack-monore
 | packages 边界调整       | `references/package-boundaries.md` |
 | 代码生成器和模板        | `references/code-generation.md`    |
 | 测试、E2E、测试示例     | `references/testing.md`            |
+| Git 提交与推送          | `references/git-workflow.md`       |
 | 提交前验证              | `references/verification.md`       |
 
 如果任务跨多个领域，读取多个 reference。不要一次性读取无关规范，保持上下文干净。
