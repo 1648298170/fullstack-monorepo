@@ -56,7 +56,7 @@ export function toZonedISO(
 
 /**
  * 当前时区的固定偏移字符串(如 '+08:00')
- * 供 MariaDB 驱动连接选项使用(驱动需要 '+HH:MM' 格式)。
+ * 供 mariadb 驱动连接选项使用(Prisma 7 MySQL 适配器使用此驱动,需要 '+HH:MM' 格式)。
  * 注意:此时区若有夏令时,连接建立后偏移不会随季节自动变化。
  */
 export function getOffsetString(timezone: string = APP_TIMEZONE): string {

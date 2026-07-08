@@ -354,7 +354,7 @@ await this.prisma.$queryRawUnsafe(
 5. 查询用户、角色、菜单等业务数据时，记得处理 `deletedAt: null`。
 6. 主键使用 `SnowflakeIdService` 生成字符串 ID，不使用数据库自增 ID。
 7. `PrismaService` 已全局注册，业务模块直接注入即可。
-8. 当前项目使用 MariaDB adapter 连接 MySQL，不要在业务代码里自行 new `PrismaClient`。
+8. 当前项目使用 `@prisma/adapter-mariadb` 连接 MySQL（Prisma 7 中 MySQL 与 MariaDB 共用此适配器），不要在业务代码里自行 new `PrismaClient`。
 
 ## 迁移命名规范
 

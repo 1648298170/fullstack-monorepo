@@ -23,7 +23,7 @@ export class PrismaService
   private readonly logger = new Logger(PrismaService.name);
 
   constructor(private readonly configService: ConfigService) {
-    // 使用 MariaDB 驱动适配器（兼容 MySQL）
+    // 使用 @prisma/adapter-mariadb 适配器（Prisma 7 中 MySQL 与 MariaDB 共用此适配器）
     const adapter = new PrismaMariaDb({
       host: configService.get<string>("database.host", "localhost"),
       port: configService.get<number>("database.port", 3306),

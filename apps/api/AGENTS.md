@@ -1,7 +1,7 @@
 # @apps/api 开发入口
 
 NestJS 11 后端应用。**整个 monorepo 唯一的非 ESM 应用**（CommonJS），承载 RBAC 权限体系、
-JWT 认证、滑块验证码、Prisma 7 + MariaDB + Redis + BullMQ 队列。详细业务与 API 行为见
+JWT 认证、滑块验证码、Prisma 7 + MySQL + Redis + BullMQ 队列。详细业务与 API 行为见
 `apps/api/docs/`，本文件只补 AI 导航所需的结构与非显然约定。
 
 ## 结构速查
@@ -33,14 +33,14 @@ Dockerfile              # 构建上下文是仓库根（pnpm deploy 提取产物
 
 ## 常见任务定位
 
-| 任务 | 先看哪里 |
-| --- | --- |
-| 新增业务模块 | `docs/module-development-guide.md` + 现有 `modules/auth/` 作模板 |
-| 改 Prisma schema / 迁移 | `docs/prisma-guide.md` + `prisma.config.ts` |
-| 改鉴权 / JWT 策略 | `docs/auth-guide.md` + `modules/auth/jwt.strategy.ts` |
-| 统一响应格式 | `docs/api-response-guide.md` + `src/common/` |
-| 环境变量加载 | `docs/development-guide.md` + `src/config/` |
-| E2E 测试 | `docs/testing-guide.md` + `test/` + `vitest.config.e2e.ts` |
+| 任务                    | 先看哪里                                                         |
+| ----------------------- | ---------------------------------------------------------------- |
+| 新增业务模块            | `docs/module-development-guide.md` + 现有 `modules/auth/` 作模板 |
+| 改 Prisma schema / 迁移 | `docs/prisma-guide.md` + `prisma.config.ts`                      |
+| 改鉴权 / JWT 策略       | `docs/auth-guide.md` + `modules/auth/jwt.strategy.ts`            |
+| 统一响应格式            | `docs/api-response-guide.md` + `src/common/`                     |
+| 环境变量加载            | `docs/development-guide.md` + `src/config/`                      |
+| E2E 测试                | `docs/testing-guide.md` + `test/` + `vitest.config.e2e.ts`       |
 
 ## 关键约定（非显然）
 

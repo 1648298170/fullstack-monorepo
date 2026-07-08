@@ -24,7 +24,7 @@
 - 前端构建：Vite 8，生产构建默认使用 Rolldown
 - Vue 应用：Vue 3 + Vue Router + Pinia + TypeScript 6
 - React 应用：React + React Router + Zustand + TypeScript 6
-- 后端应用：NestJS 11 + Prisma 7 + MariaDB + Redis + TypeScript 6
+- 后端应用：NestJS 11 + Prisma 7 + MySQL 8.4 + Redis + TypeScript 6
 - 代码规范：ESLint + Prettier
 - 测试：Vitest + Testing Library + Playwright
 
@@ -68,7 +68,7 @@ fullstack-monorepo/
   apps/
     vue-web/                 # Vue 业务应用模板
     react-web/               # React 业务应用模板
-    api/                     # NestJS 后端应用（Prisma + MariaDB + Redis）
+    api/                     # NestJS 后端应用（Prisma + MySQL + Redis）
 
   packages/
     shared/
@@ -265,7 +265,7 @@ apps/react-web
 - Node.js：`>=22.12.0`
 - pnpm：`10.18.3`
 - npm：`>=10.9.0 <11`，仅作为 Node.js 工具链保留，不用于安装依赖
-- Docker（可选）：后端 `apps/api` 依赖 MariaDB 和 Redis，可用根目录 `docker-compose.yml` 一键启动
+- Docker（可选）：后端 `apps/api` 依赖 MySQL 和 Redis，可用根目录 `docker-compose.yml` 一键启动
 
 仓库只允许使用 pnpm 安装依赖。版本约束、初始化方式和升级流程见
 [`docs/conventions/runtime-versions.md`](docs/conventions/runtime-versions.md)。
@@ -306,7 +306,7 @@ pnpm dev:react
 pnpm --filter @apps/api dev
 ```
 
-启动后端依赖服务（MariaDB + Redis，首次需要 Docker）：
+启动后端依赖服务（MySQL + Redis，首次需要 Docker）：
 
 ```bash
 docker compose up -d
